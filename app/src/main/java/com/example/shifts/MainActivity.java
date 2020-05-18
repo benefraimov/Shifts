@@ -1,40 +1,75 @@
 package com.example.shifts;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
-    EditText userName, userPass;
+    EditText email, pass;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
+    private FirebaseAuth mAuth;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            startActivity(new Intent(MainActivity.this,WelcomePage.class));
+        }
+        else{
+            //do nothing
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userName = findViewById(R.id.userName);
-        userPass = findViewById(R.id.userPass);
+        //INITIALIZE FIREBASE AUTH..
+        mAuth = FirebaseAuth.getInstance();
+
+        sharedPref = getSharedPreferences("shifts",Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
+
+        email = findViewById(R.id.userName);
+        pass = findViewById(R.id.userPass);
 
         (findViewById(R.id.btnLogin)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,WelcomePage.class);
-                if(userName.getText().toString().equals("Ben") && userPass.getText().toString().equals("123")){
-                    // Create intent in order to be able for transferring values
-                    i.putExtra("userName",userName.getText().toString());
-                    startActivity(i);
-                    // Make a Toast
-                    Toast.makeText(getApplicationContext(), "Login!!", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_LONG).show();
-                }
+                mAuth.signInWithEmailAndPassword(email.getText().toString(), pass.getText().toString())
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    updateUI(null);
+                                }
+                            }
+                        });
             }
         });
 
@@ -53,5 +88,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void updateUI(FirebaseUser o) {
+        if(o!=null){
+            startActivity(new Intent(MainActivity.this,WelcomePage.class));
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

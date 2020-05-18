@@ -64,6 +64,7 @@
 
                     <EditText
                         android:id="@+id/userName"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -74,6 +75,7 @@
 
                     <EditText
                         android:id="@+id/userPass"
+                        android:drawableLeft="@drawable/ic_create_black_24dp"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
