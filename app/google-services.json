@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "18713147179",
+    "firebase_url": "https://shifts1-8cc49.firebaseio.com",
+    "project_id": "shifts1-8cc49",
+    "storage_bucket": "shifts1-8cc49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18713147179:android:0c0776ab5447bc01df776e",
+        "android_client_info": {
+          "package_name": "com.example.shifts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18713147179-akfsce74ug0ip9qskf8hv3csfftd5pnr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl-57ms35gyFIq8vN5hjVYAh5NYPLLRcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18713147179-akfsce74ug0ip9qskf8hv3csfftd5pnr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
