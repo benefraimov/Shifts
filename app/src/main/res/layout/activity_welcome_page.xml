@@ -96,23 +96,13 @@
         android:orientation="horizontal"
         android:weightSum="4">
 
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#B6B0B0"
             android:gravity="center"
-            android:text="Hours"
-            android:textColor="#090606" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#B6B0B0"
-            android:gravity="center"
-            android:text="End"
+            android:text="Day"
             android:textColor="#090606" />
 
         <TextView
@@ -124,14 +114,27 @@
             android:text="Beginning"
             android:textColor="#090606" />
 
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#B6B0B0"
             android:gravity="center"
-            android:text="Day"
+            android:text="End"
             android:textColor="#090606" />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#B6B0B0"
+            android:gravity="center"
+            android:text="Hours"
+            android:textColor="#090606" />
+
 
     </LinearLayout>
 

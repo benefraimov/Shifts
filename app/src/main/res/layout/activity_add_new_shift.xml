@@ -55,8 +55,8 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingEnd="15dp"
-        android:text="Start Time"
-        android:textAlignment="viewEnd"
+        android:text="Start Date And Time"
+        android:textAlignment="viewStart"
         tools:ignore="RtlCompat" />
 
     <LinearLayout
@@ -66,25 +66,51 @@
         android:weightSum="4"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/startTime"
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:hint="start time..."
-            android:textAlignment="center"
-            android:gravity="center"/>
+            android:layout_weight="0.2"/>
 
-        <CalendarView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"/>
-
-        <ImageView
+        <ImageButton
+            android:id="@+id/datePicker1"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            app:srcCompat="@drawable/calend" />
+            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+
+        <TextView
+            android:hint="Select Date"
+            android:gravity="center"
+            android:id="@+id/tvDate1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"/>
+
+        <ImageButton
+            android:id="@+id/timePicker1"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/ic_baseline_access_time_24" />
+
+        <TextView
+            android:id="@+id/tvTime1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"
+            android:hint="Select Time"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
 
     </LinearLayout>
 
@@ -97,9 +123,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="End Time"
+        android:text="End Date And Time"
         android:paddingEnd="15dp"
-        android:textAlignment="viewEnd"
+        android:textAlignment="viewStart"
         android:gravity="center_vertical"
         tools:ignore="RtlCompat" />
 
@@ -110,25 +136,48 @@
         android:weightSum="4"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/endTime"
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:hint="end time..."
-            android:textAlignment="center"
-            android:gravity="center"/>
+            android:layout_weight="0.2"/>
 
-        <CalendarView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"/>
-
-        <ImageView
+        <ImageButton
+            android:id="@+id/datePicker2"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            app:srcCompat="@drawable/calend" />
+            app:srcCompat="@drawable/ic_baseline_date_range_24" />
+        <TextView
+            android:hint="Select Date"
+            android:gravity="center"
+            android:id="@+id/tvDate2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"/>
+        <ImageButton
+            android:id="@+id/timePicker2"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/ic_baseline_access_time_24" />
+        <TextView
+            android:id="@+id/tvTime2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"
+            android:hint="Select Time"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+
 
     </LinearLayout>
 
