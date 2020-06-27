@@ -196,8 +196,6 @@ public class AddNewShift extends AppCompatActivity {
                 int Month = month + 1;
                 Log.d(TAG, "onDataSet: date: " + year + "/" + Month + "/" + dayOfMonth);
                 mDisplayDate1.setText(Month+"/"+dayOfMonth+"/"+year);
-                dateCal1.clear();
-                dateCal1.set(year, Month, dayOfMonth);
             }
         };
 
@@ -207,14 +205,11 @@ public class AddNewShift extends AppCompatActivity {
                 int Month = month + 1;
                 Log.d(TAG, "onDataSet: date: " + year + "/" + Month + "/" + dayOfMonth);
                 mDisplayDate2.setText(Month+"/"+dayOfMonth+"/"+year);
-                dateCal2.clear();
-                dateCal2.set(year, Month, dayOfMonth);
             }
         };
 
 
         mAuth = FirebaseAuth.getInstance();
-
         addShift = findViewById(R.id.btnConfirm);
 
         addShift.setOnClickListener(new View.OnClickListener() {

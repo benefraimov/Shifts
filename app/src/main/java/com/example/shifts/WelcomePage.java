@@ -23,7 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -42,15 +45,15 @@ public class WelcomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
 
-        currentShiftsDate = findViewById(R.id.dateOfCurrentShifts);
 
         mAuth = FirebaseAuth.getInstance();
         //userName = findViewById(R.id.testNameApear);
         //user = mAuth.getCurrentUser();
         listView = (ListView)findViewById(R.id.listView);
 
-        myRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child("Shifts");
-
+        DateFormat df = new SimpleDateFormat("MMM yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        myRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child(date);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.each_item_row,
                 R.id.item,arrayList);
 
