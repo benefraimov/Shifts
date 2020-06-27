@@ -42,7 +42,7 @@ public class WelcomePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);//hkjj
         setContentView(R.layout.activity_welcome_page);
 
 
