@@ -48,11 +48,11 @@ public class AddNewShift extends AppCompatActivity {
     private TextView mDisplayDate1, mDisplayDate2;
     private DatePickerDialog.OnDateSetListener mDataSetListener1, mDataSetListener2;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener1, mTimeSetListener2;
-    Calendar date1 = Calendar.getInstance();
-    Calendar date2 = Calendar.getInstance();
+    Calendar dateCal1 = Calendar.getInstance();
+    Calendar dateCal2 = Calendar.getInstance();
 
     Button addShift;
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     DatabaseReference myRef;
     String shift;
     int t1Hour, t1Minute, t2Hour, t2Minute;
@@ -61,14 +61,6 @@ public class AddNewShift extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_shift);
-
-//        findViewById(R.id.btnViewShift).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(InsertShifts.this,ViewShifts.class));
-//            }
-//        });
-
 
         //Time & Date Variable Assignment
         mTimePicker1 = (ImageButton)findViewById(R.id.timePicker1);
@@ -204,8 +196,8 @@ public class AddNewShift extends AppCompatActivity {
                 int Month = month + 1;
                 Log.d(TAG, "onDataSet: date: " + year + "/" + Month + "/" + dayOfMonth);
                 mDisplayDate1.setText(Month+"/"+dayOfMonth+"/"+year);
-                date1.clear();
-                date1.set(year, Month, dayOfMonth);
+                dateCal1.clear();
+                dateCal1.set(year, Month, dayOfMonth);
             }
         };
 
@@ -214,16 +206,14 @@ public class AddNewShift extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 int Month = month + 1;
                 Log.d(TAG, "onDataSet: date: " + year + "/" + Month + "/" + dayOfMonth);
-                mDisplayDate2.setText(Month+"/"+dayOfMonth+"/"+year);+
-                date2.clear();
-                date2.set(year, Month, dayOfMonth);
+                mDisplayDate2.setText(Month+"/"+dayOfMonth+"/"+year);
+                dateCal2.clear();
+                dateCal2.set(year, Month, dayOfMonth);
             }
         };
 
 
-
         mAuth = FirebaseAuth.getInstance();
-        myRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child("Shifts").child(mDisplayDate1.getText().toString());
 
         addShift = findViewById(R.id.btnConfirm);
 
@@ -231,45 +221,56 @@ public class AddNewShift extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
-                DateFormat df = DateFormat.getInstance();
+                String Time1 = mDisplayDate1.getText().toString() + " " + mDisplayTime1.getText().toString();
+                String Time2 = mDisplayDate2.getText().toString() + " " + mDisplayTime2.getText().toString();
+                Log.i("======= Time1"," :: "+Time1);
+                Log.i("======= Time2"," :: "+Time2);
 
-                Date date1 = null;
-                Date date2 = null;
+                // date format
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm aa");
+
+                Date d1 = null;
+                Date d2 = null;
                 try {
-                    date1 = simpleDateFormat.parse(mDisplayTime1.getText().toString());
-                    date2 = simpleDateFormat.parse(mDisplayTime2.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
-                Log.i("diff: ", " ::" + String.valueOf(diff));
-                float dayCount = (float)diff/(24*60*60*1000);
-                Log.i("======Days Counter", " ::"+ String.valueOf(dayCount));
-                long difference = date2.getTime() - date1.getTime();
-                int days = (int) (difference / (1000*60*60*24));
-                int hours = (int) ((difference - (1000*60*60*24*days)) / (1000*60*60));
-                int min = (int) (difference - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
-                hours = (hours < 0 ? -hours : hours);
-                String totalTime = String.valueOf(hours)+":"+String.valueOf(min);
-                SimpleDateFormat f24Hours = new SimpleDateFormat(
-                        "HH:mm");
-                String diffHours;
-                try {
-                    Date date = f24Hours.parse(totalTime);
-                    //Set selected time on text view
-                    diffHours = f24Hours.format(date);
-                    Log.i("======= Hours"," :: "+diffHours);
-                    shift = "    " + mDisplayDate1.getText().toString() + "            " +
-                            mDisplayTime1.getText().toString() + "              " +
-                            mDisplayTime2.getText().toString() + "                " +
-                            diffHours;
+                    d1 = format.parse(Time1);
+                    d2 = format.parse(Time2);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
+                long diff = d2.getTime() - d1.getTime();
+                long diffSeconds = diff / 1000;
+                long diffMinutes = (diff / (60 * 1000))%60;
+                long diffHours = diff / (60 * 60 * 1000);
 
-                 //       startTime.getText().toString() + "                       1          ";
+                String totalTime = String.valueOf(diffHours < 10 ? "0"+diffHours : diffHours) +
+                        ":" +
+                        String.valueOf(diffMinutes < 10 ? "0"+diffMinutes: diffMinutes);
+
+//changing format of hour displaying, not capable when have more than 24 hr!
+//                try {
+//                    //pattern for Hours Display:
+//                    SimpleDateFormat f24Hours = new SimpleDateFormat(
+//                            "HH:mm");
+//                    String diffHours1;
+//                    Date date = f24Hours.parse(totalTime);
+//                    //Set selected time on text view.
+//                    diffHours1 = f24Hours.format(date);
+//                    Log.i("======= Hours"," :: "+diffHours1);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+
+                shift = "    " + mDisplayDate1.getText().toString() + "            " +
+                        mDisplayTime1.getText().toString() + "              " +
+                        mDisplayTime2.getText().toString() + "                " +
+                        totalTime;
+
+
+                DateFormat df = new SimpleDateFormat("MMM yyyy");
+                String date = df.format(Calendar.getInstance().getTime());
+                myRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child(date);
+
                 ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -300,67 +301,5 @@ public class AddNewShift extends AppCompatActivity {
             }
         });
 
-    }
-
-    //Counting how many days
-    public String getCountOfDays(String createdDateString, String expireDateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-        Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
-        try {
-            createdConvertedDate = dateFormat.parse(createdDateString);
-            expireCovertedDate = dateFormat.parse(expireDateString);
-
-            Date today = new Date();
-
-            todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        int cYear = 0, cMonth = 0, cDay = 0;
-
-        if (createdConvertedDate.after(todayWithZeroTime)) {
-            Calendar cCal = Calendar.getInstance();
-            cCal.setTime(createdConvertedDate);
-            cYear = cCal.get(Calendar.YEAR);
-            cMonth = cCal.get(Calendar.MONTH);
-            cDay = cCal.get(Calendar.DAY_OF_MONTH);
-
-        } else {
-            Calendar cCal = Calendar.getInstance();
-            cCal.setTime(todayWithZeroTime);
-            cYear = cCal.get(Calendar.YEAR);
-            cMonth = cCal.get(Calendar.MONTH);
-            cDay = cCal.get(Calendar.DAY_OF_MONTH);
-        }
-
-
-        /*Calendar todayCal = Calendar.getInstance();
-        int todayYear = todayCal.get(Calendar.YEAR);
-        int today = todayCal.get(Calendar.MONTH);
-        int todayDay = todayCal.get(Calendar.DAY_OF_MONTH);
-        */
-
-        Calendar eCal = Calendar.getInstance();
-        eCal.setTime(expireCovertedDate);
-
-        int eYear = eCal.get(Calendar.YEAR);
-        int eMonth = eCal.get(Calendar.MONTH);
-        int eDay = eCal.get(Calendar.DAY_OF_MONTH);
-
-        Calendar date1 = Calendar.getInstance();
-        Calendar date2 = Calendar.getInstance();
-
-        date1.clear();
-        date1.set(cYear, cMonth, cDay);
-        date2.clear();
-        date2.set(eYear, eMonth, eDay);
-
-        long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
-
-        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
-
-        return ("" + (int) dayCount + " Days");
     }
 }

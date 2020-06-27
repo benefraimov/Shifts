@@ -35,11 +35,14 @@ public class WelcomePage extends AppCompatActivity {
     FirebaseUser user;
     ListView listView;
     ArrayList<String> arrayList = new ArrayList<>();
+    TextView currentShiftsDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
+
+        currentShiftsDate = findViewById(R.id.dateOfCurrentShifts);
 
         mAuth = FirebaseAuth.getInstance();
         //userName = findViewById(R.id.testNameApear);

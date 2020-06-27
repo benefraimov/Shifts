@@ -64,28 +64,12 @@
         android:orientation="horizontal"
         android:weightSum="5">
 
-        <ImageButton
-            android:id="@+id/btnLftMonth"
+        <CalendarView
+            android:id="@+id/dateOfCurrentShifts"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@android:drawable/arrow_down_float" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="April 2020" />
-
-        <ImageButton
-            android:id="@+id/btnRhtMonth"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@android:drawable/arrow_up_float" />
+            android:layout_weight="5"
+            android:gravity="center"/>
 
     </LinearLayout>
 
