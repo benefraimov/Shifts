@@ -3,6 +3,9 @@ package com.example.shifts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,12 +43,13 @@ public class WelcomePage extends AppCompatActivity {
     ListView listView;
     ArrayList<String> arrayList = new ArrayList<>();
     TextView currentShiftsDate;
+    RelativeLayout rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//hkjj
         setContentView(R.layout.activity_welcome_page);
-
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         mAuth = FirebaseAuth.getInstance();
         //userName = findViewById(R.id.testNameApear);
@@ -60,7 +65,7 @@ public class WelcomePage extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
 
         // Read from the database
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        final ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()){
@@ -140,13 +145,30 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
+
         (findViewById(R.id.btnAddShip)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WelcomePage.this,AddNewShift.class);
-                startActivity(i);
+                rl = findViewById(R.id.fragment_container);
+                rl.setVisibility(View.VISIBLE);
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                ft.add(R.id.fragment_container, new AddShiftWithFragment());
+                ft.commit();
             }
         });
     }
+
+//    public void changeFragment(View view){
+//        Fragment fragment;
+//        if(view == findViewById(R.id.btnAddShip)){
+//            fragment = new AddShiftWithFragment();
+//            FragmentManager fm = getSupportFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            ft.replace(R.id.addShiftFragmentPlace, fragment);
+//            ft.commit();
+//        }
+//    }
 
 }

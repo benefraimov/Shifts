@@ -9,6 +9,13 @@
     android:weightSum="20"
     tools:context=".WelcomePage">
 
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:gravity="center"/>
+            android:gravity="center" />
 
     </LinearLayout>
 
@@ -109,7 +116,6 @@
             android:textColor="#090606" />
 
 
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -122,14 +128,15 @@
 
     </LinearLayout>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="13"
-                android:background="#EBCFCF"
-                android:textColor="#090606"
-                android:id="@+id/listView">
-            </ListView>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"
+        android:background="#EBCFCF"
+        android:textColor="#090606">
+
+    </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,9 +177,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@null"
             android:gravity="center"
             android:text="Log Out"
-            android:background="@null"
             android:textAllCaps="false"
             android:textColor="#606971" />
 
