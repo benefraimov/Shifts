@@ -34,34 +34,43 @@ import java.util.Calendar;
 
 public class WelcomePage extends AppCompatActivity {
 
-    TextView userName;
-    SharedPreferences sharedPref;
-    FirebaseAuth mAuth;
+    RelativeLayout rl;
+
+    //Data Base------------------
     //Reference for Users
     DatabaseReference myRefUsers = FirebaseDatabase.getInstance().getReference("Users");
     FirebaseUser user;
+    FirebaseAuth mAuth;
+    //--------------------------
+
+    //List view to catch the real time database from firebase!!
     ListView listView;
     ArrayList<String> arrayList = new ArrayList<>();
-    TextView currentShiftsDate;
-    RelativeLayout rl;
+    //-------------------------------------------------------!!
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);//hkjj
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+        //Connection to the fire base!!!
         mAuth = FirebaseAuth.getInstance();
         //userName = findViewById(R.id.testNameApear);
         //user = mAuth.getCurrentUser();
         listView = (ListView)findViewById(R.id.listView);
 
+        //designing a data format for the date
         DateFormat df = new SimpleDateFormat("MMM yyyy");
         String date = df.format(Calendar.getInstance().getTime());
+
+        //creating a new Users child child by the current date and adding it to the real time database
         myRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child(date);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.each_item_row,
                 R.id.item,arrayList);
 
+        //inserting into the list view the arrayAdapter wich contain the prder of the way the data enters
         listView.setAdapter(arrayAdapter);
 
         // Read from the database
@@ -80,6 +89,7 @@ public class WelcomePage extends AppCompatActivity {
 
             }
         };
+        //never forget to add the value listener into the listener
         myRefUsers.addListenerForSingleValueEvent(valueEventListener);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

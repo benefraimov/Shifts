@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class AddShiftWithFragment extends Fragment {
 
-    Button btnAddShift, btnBackPressCancel;
+    Button btnAddShift;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -23,13 +23,12 @@ public class AddShiftWithFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_shift_with, container, false);
 
         btnAddShift = view.findViewById(R.id.btnConfirm);
-        btnBackPressCancel = view.findViewById(R.id.btnCancel);
 
-        btnBackPressCancel = public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                     Bundle savedInstanceState) {
-                View v = inflater.inflate(R.layout.activity_info, null);
-                return v;
-            }
+        view.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity() , WelcomePage.class));
+            }//getActivity().getFragmentManager().beginTransaction().remove(this).commit();
         });
 
         return view;
