@@ -10,7 +10,22 @@
     tools:context=".WelcomePage">
 
     <RelativeLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragment_Menu"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_weight="18"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_AddShift"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_MyWage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="20"
@@ -24,7 +39,7 @@
         android:weightSum="5">
 
         <Button
-            android:id="@+id/btnMenu"
+            android:id="@+id/btnOpenMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
@@ -37,7 +52,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:background="@null"
-            android:capitalize="none"
             android:text="refresh"
             android:textAllCaps="false"
             android:textColor="#606971" />
@@ -55,7 +69,7 @@
             android:id="@+id/btnMyWage"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.7"
             android:background="@null"
             android:text="My Wage"
             android:textAllCaps="false"
@@ -223,6 +237,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
 </LinearLayout>

@@ -3,21 +3,21 @@ package com.example.shifts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +34,7 @@ import java.util.Calendar;
 
 public class WelcomePage extends AppCompatActivity {
 
-    RelativeLayout rl;
+    RelativeLayout r1, r2, r3;
 
     //Data Base------------------
     //Reference for Users
@@ -48,7 +48,6 @@ public class WelcomePage extends AppCompatActivity {
     ArrayList<String> arrayList = new ArrayList<>();
     //-------------------------------------------------------!!
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,7 @@ public class WelcomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         //userName = findViewById(R.id.testNameApear);
         //user = mAuth.getCurrentUser();
-        listView = (ListView)findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.lisView);
 
         //designing a data format for the date
         DateFormat df = new SimpleDateFormat("MMM yyyy");
@@ -67,8 +66,8 @@ public class WelcomePage extends AppCompatActivity {
 
         //creating a new Users child child by the current date and adding it to the real time database
         myRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getUid()).child(date);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.each_item_row,
-                R.id.item,arrayList);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.each_item_row,
+                R.id.item, arrayList);
 
         //inserting into the list view the arrayAdapter wich contain the prder of the way the data enters
         listView.setAdapter(arrayAdapter);
@@ -77,7 +76,7 @@ public class WelcomePage extends AppCompatActivity {
         final ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     String value = ds.getValue(String.class);
                     arrayList.add(value);
                 }
@@ -132,11 +131,45 @@ public class WelcomePage extends AppCompatActivity {
 //            }
 //        });
 
+        //Connecting the Relative Layout to the buttons
+
+
+        (findViewById(R.id.btnAddShip)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                r1 = findViewById(R.id.fragment_AddShift);
+                r1.setVisibility(View.VISIBLE);
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                ft.add(R.id.fragment_AddShift, new AddShiftWithFragment());
+                ft.commit();
+            }
+        });
+
+//        findViewById(R.id.btnOpenMenu).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                r2 = findViewById(R.id.fragment_Menu);
+////                r2.setVisibility(View.VISIBLE);
+////                FragmentManager fm = getSupportFragmentManager();
+////                FragmentTransaction ft = fm.beginTransaction();
+////                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+////                ft.add(R.id.fragment_Menu, new MenuWithFragment());
+////                ft.commit();
+//            }
+//        });
+
         (findViewById(R.id.btnMyWage)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WelcomePage.this,MySalary.class);
-                startActivity(i);
+                r3 = findViewById(R.id.fragment_MyWage);
+                r3.setVisibility(View.VISIBLE);
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                ft.add(R.id.fragment_MyWage, new MyWageWithFragment());
+                ft.commit();
             }
         });
 
@@ -151,34 +184,34 @@ public class WelcomePage extends AppCompatActivity {
         (findViewById(R.id.btnRefresh)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomePage.this,WelcomePage.class));
-            }
-        });
-
-
-        (findViewById(R.id.btnAddShip)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rl = findViewById(R.id.fragment_container);
-                rl.setVisibility(View.VISIBLE);
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                ft.add(R.id.fragment_container, new AddShiftWithFragment());
-                ft.commit();
+                startActivity(new Intent(WelcomePage.this, WelcomePage.class));
             }
         });
     }
 
-//    public void changeFragment(View view){
-//        Fragment fragment;
-//        if(view == findViewById(R.id.btnAddShip)){
-//            fragment = new AddShiftWithFragment();
-//            FragmentManager fm = getSupportFragmentManager();
-//            FragmentTransaction ft = fm.beginTransaction();
-//            ft.replace(R.id.addShiftFragmentPlace, fragment);
-//            ft.commit();
-//        }
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        super.onOptionsItemSelected(item);
+
+        int id = item.getItemId();
+
+        if(id==R.id.action_profile){
+            Toast.makeText(this,"You selected profile", Toast.LENGTH_SHORT).show();
+        }
+        else if(id==R.id.nav_share){
+            Toast.makeText(this,"You selected share", Toast.LENGTH_SHORT).show();
+        }
+        else if(id==R.id.nav_send){
+            Toast.makeText(this,"You selected send", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
 
 }

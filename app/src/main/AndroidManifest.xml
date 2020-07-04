@@ -21,7 +21,8 @@
         <activity android:name=".AddNewShift" />
         <activity android:name=".MySalary" />
         <activity android:name=".RestorePassPage" />
-        <activity android:name=".WelcomePage" />
+        <activity android:name=".WelcomePage"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SignUpPage" />
         <activity android:name=".MainActivity" />
     </application>
